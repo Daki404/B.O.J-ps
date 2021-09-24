@@ -15,4 +15,4 @@ for _ in range(int(input())):
                     dp[j][i + j] = min(dp[j][i + j], dp[j][k] + dp[k + 1][i + j])
                 else:
                     dp[j][i + j] = min(dp[j][i + j], (dp[j][k] + dp[k + 1][i + j]) * 2)
-    print(dp[0][-1])
+    print(dp[0][n-1])
