@@ -1,18 +1,20 @@
-import sys, math
+import sys
 input = sys.stdin.readline
-
+MAX = sys.maxsize
 
 for _ in range(int(input())):
     n = int(input())
-    book = list(map(int, input().split()))
-    dp = [[math.inf] * n for _ in range(n)]
-    for i, j in enumerate(book):
-        dp[i][i] = j
-    for i in range(n):
+    pages = [0] + list(map(int, input().split()))
+    dp = [[0] * n for _ in range(n)]
+
+    for i in range(1, n + 1):
+        pages[i] += pages[i - 1]
+
+    for i in range(1, n):
         for j in range(n - i):
-            for k in range(j, i + j):
-                if i <= 1:
-                    dp[j][i + j] = min(dp[j][i + j], dp[j][k] + dp[k + 1][i + j])
-                else:
-                    dp[j][i + j] = min(dp[j][i + j], (dp[j][k] + dp[k + 1][i + j]) * 2)
+            k = i + j
+            dp[j][k] = MAX
+            for l in range(j, k):
+                dp[j][k] = min(dp[j][k], dp[j][l] + dp[l + 1][k] - pages[j] + pages[k + 1])
+
     print(dp[0][n-1])
