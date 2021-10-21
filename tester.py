@@ -1,7 +1,19 @@
-import heapq
+import sys
+input = sys.stdin.readline
 
-heap = [5, 4, 3, 2, 1]
+def permutation(arr, n):
+    arr = sorted(arr)
+    log = 0
+    for i in range(len(arr)):
+        if log == arr[i]: continue
+        log = arr[i]
+        if n == 1: yield [arr[i]]
+        else:
+            for next in permutation(arr[:i] + arr[i+1:], n-1):
+                yield [arr[i]] + next
 
-heapq.heappush(heap, 0)
+n, m = map(int, input().split())
+line = list(map(int, input().split()))
 
-print(heap)
+for result in permutation(line, m):
+    print(*result)
