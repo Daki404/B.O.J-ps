@@ -1,14 +1,11 @@
-from collections import Counter
-import sys
-input = sys.stdin.readline
+import os
+
+file_list = os.listdir('C:/Users/Seo/Desktop/hand_label')
+print(file_list)
 
 
-for _ in range(int(input())):
-    n = int(input())
-    line = list(map(int, input().split()))
-    one = zero = 0
-    for i in line:
-        if i == 1: one += 1
-        elif i == 0: zero += 1
-    if zero: print(one * (zero * 2))
-    else: print(one)
+for i in file_list:
+    a = os.path.join('C:/Users/Seo/Desktop/hand_label', i)
+    b = os.path.join('C:/Users/Seo/Desktop/hand_label', i[:-4])
+    os.rename(a, b)
+
