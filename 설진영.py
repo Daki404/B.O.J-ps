@@ -1,31 +1,27 @@
-import sys, heapq
+from collections import defaultdict
+import sys
+sys.setrecursionlimit(10**9)
 input = sys.stdin.readline
 
 
-def dijkstra(n, road):
-    road_cost = {i: float('inf') for i in range(1, city + 1)}
-    road_cost[n] = 0
-    queue = [(0, n)]
-
-    while queue:
-        cost, v = heapq.heappop(queue)
-        if cost > road_cost[v]: continue
-        for node in road[v]:
-            if road_cost[node] > (new_cost := road[v][node] + cost):
-                road_cost[node] = new_cost
-                heapq.heappush(queue, (new_cost, node))
-    return road_cost
+def solve(n):
+    if bulid.get(n) is None: return cost[n]
+    if dp[n]: return dp[n]
+    if visit_dp[n] == -1: visit_dp[n] = max(solve(m) for m in bulid[n])
+    dp[n] = visit_dp[n] + cost[n]
+    return dp[n]
 
 
-city = int(input())
-bus = int(input())
+for _ in range(int(input())):
+    buliding_num, bulid_num = map(int, input().split())
+    cost = {i + 1: j for i, j in enumerate(list(map(int, input().split())))}
 
-bus_cost = {i: {} for i in range(1, city + 1)}
-for _ in range(bus):
-    st, ed, cost = map(int, input().split())
-    if bus_cost[st].get(ed) is not None:
-        bus_cost[st][ed] = min(bus_cost[st][ed], cost)
-    else: bus_cost[st][ed] = cost
+    bulid = defaultdict(list)
+    for _ in range(bulid_num):
+        st, ed = map(int, input().split())
+        bulid[ed].append(st)
 
-st, ed = map(int, input().split())
-print(dijkstra(st, bus_cost)[ed])
+    destination = int(input())
+    dp = [0] * (buliding_num + 1)
+    visit_dp = [-1] * ((buliding_num + 1))
+    print(solve(destination))
